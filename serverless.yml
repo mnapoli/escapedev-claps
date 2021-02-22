@@ -26,6 +26,8 @@ plugins:
 functions:
     websocket:
         handler: lambda.php
+        memorySize: 512
+        reservedConcurrency: 10
         events:
             - websocket: $connect
             - websocket: $disconnect
