@@ -9,6 +9,8 @@ provider:
         - ${bref:layer.php-80}
     httpApi:
         cors: true
+    environment:
+        API_GATEWAY_ID: !Ref WebsocketsApi
     iamRoleStatements:
         # Allow Lambda to access DynamoDB
         -   Effect: Allow
@@ -31,14 +33,14 @@ functions:
 
 package:
     exclude:
-        - website
+        - website/**
 
 resources:
     Resources:
         WebsocketConnections:
             Type: AWS::DynamoDB::Table
             Properties:
-                TableName: websocket-connections
+                TableName: escapedev-claps-connections
                 AttributeDefinitions:
                     -   AttributeName: connectionId
                         AttributeType: S

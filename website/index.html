@@ -6,13 +6,12 @@
     <title>Please clap</title>
     <link href="tailwind.css" rel="stylesheet">
 </head>
-<body>
+<body class="w-full h-screen flex items-center justify-center">
 
-    <div id="app" class="container mx-auto max-w-sm text-4xl">
-        <div class="mb-6">
-            {{ claps }}
-        </div>
-        <button type="button" @click="clap()">
+    <div id="app" class="">
+        <button type="button" @click="clap()"
+                class="text-4xl transition-all duration-300 ease-linear transform"
+                :style="{ 'scale': `${this.claps + 1}` }">
             👏
         </button>
     </div>
@@ -31,14 +30,22 @@
                     socket.send('clap');
                 },
                 receiveClap() {
+                    console.log('received clap');
                     this.claps++;
+                    window.setTimeout(() => {
+                        this.decreaseClap();
+                    }, 300);
+                },
+                decreaseClap() {
+                    if (this.claps <= 0) {
+                        return;
+                    }
+                    this.claps--;
                 }
             },
         });
 
-        socket.onmessage = function(event) {
-            vue.receiveClap();
-        };
+        socket.onmessage = vue.receiveClap;
     </script>
 
 </body>

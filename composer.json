@@ -6,7 +6,7 @@
         }
     },
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "bref/bref": "^1.2",
         "async-aws/dynamo-db": "^1.1"
     }
