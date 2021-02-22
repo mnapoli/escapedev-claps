@@ -1,0 +1,44 @@
+service: escapedev-claps
+
+provider:
+    name: aws
+    region: eu-west-3
+    stage: prod
+    runtime: provided.al2
+    layers:
+        - ${bref:layer.php-80}
+    httpApi:
+        cors: true
+    iamRoleStatements:
+        # Allow Lambda to access DynamoDB
+        -   Effect: Allow
+            Action: dynamodb:*
+            Resource:
+                -   !Sub '${WebsocketConnections.Arn}'
+                # Also allows access to secondary indexes
+                -   !Sub '${WebsocketConnections.Arn}/*'
+
+plugins:
+    - ./vendor/bref/bref
+
+functions:
+    websocket:
+        handler: lambda.php
+        events:
+            - websocket: $connect
+            - websocket: $disconnect
+            - websocket: $default
+
+resources:
+    Resources:
+        WebsocketConnections:
+            Type: AWS::DynamoDB::Table
+            Properties:
+                TableName: websocket-connections
+                AttributeDefinitions:
+                    -   AttributeName: connectionId
+                        AttributeType: S
+                KeySchema:
+                    -   AttributeName: connectionId
+                        KeyType: HASH
+                BillingMode: PAY_PER_REQUEST

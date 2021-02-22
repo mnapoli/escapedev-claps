@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, world!</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <div id="app" class="container mx-auto max-w-sm text-4xl">
+        <div class="mb-6">
+            {{ claps }}
+        </div>
+        <button type="button" @click="clap()">
+            👏
+        </button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+        let socket = new WebSocket('wss://hxih1ufw59.execute-api.eu-west-3.amazonaws.com/prod');
+
+        const vue = new Vue({
+            el: '#app',
+            data: {
+                claps: 0,
+            },
+            methods: {
+                clap() {
+                    socket.send('clap');
+                },
+                receiveClap() {
+                    this.claps++;
+                }
+            },
+        });
+
+        socket.onmessage = function(event) {
+            console.log('[message] Data received from server:', event);
+
+            vue.receiveClap();
+        };
+    </script>
+
+</body>
+</html>
