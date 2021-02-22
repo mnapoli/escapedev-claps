@@ -29,6 +29,10 @@ functions:
             - websocket: $disconnect
             - websocket: $default
 
+package:
+    exclude:
+        - website
+
 resources:
     Resources:
         WebsocketConnections:

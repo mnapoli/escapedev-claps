@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Hello, world!</title>
-    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <title>Please clap</title>
+    <link href="tailwind.css" rel="stylesheet">
 </head>
 <body>
 
@@ -17,7 +17,7 @@
         </button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <script>
         let socket = new WebSocket('wss://hxih1ufw59.execute-api.eu-west-3.amazonaws.com/prod');
 
@@ -37,8 +37,6 @@
         });
 
         socket.onmessage = function(event) {
-            console.log('[message] Data received from server:', event);
-
             vue.receiveClap();
         };
     </script>

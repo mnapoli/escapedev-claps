@@ -1,3 +1,5 @@
 vendor/
 composer.phar
 .serverless
+node_modules/
+website/tailwind.css
